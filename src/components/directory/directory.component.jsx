@@ -1,78 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { selectDirectorySections } from '../../redux/directory/directory.selectors';
 
 import MenuItem from '../menu-item/menu-item.component';
 
-import './directory.styles.scss'
+import './directory.styles.scss';
 
-import pic from '../../img/hat.jpg';
-import pic2 from '../../img/jac.jpg';
-import pic3 from '../../img/snk.jpg';
-import pic4 from '../../img/wm.jpg';
-import pic5 from '../../img/mn.jpg';
-
-class Directory extends React.Component {
-    constructor(){
-        super();
-
-        this.state = {
-           sections:[
-            {
-              title: 'hats',
-              //imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-              imageUrl: `${pic}`,
-              id: 1,
-              linkUrl: 'hats'
-            },
-            {
-              title: 'jackets',
-              //imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-              imageUrl: `${pic2}`,
-              id: 2,
-              linkUrl: ''
-            },
-            {
-              title: 'sneakers',
-              //imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-              imageUrl: `${pic3}`,
-              id: 3,
-              linkUrl: ''
-            },
-            {
-              title: 'womens',
-              //imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-              imageUrl: `${pic4}`,
-              size: 'large',
-              id: 4,
-              linkUrl: ''
-            },
-            {
-              title: 'mens',
-              //imageUrl: 'https://i.ibb.co/R70vBrQ/mens.png',
-              imageUrl: `${pic5}`,
-              size: 'large',
-              id: 5,
-              linkUrl: ''
-            }
-
-           ]
+const Directory = ({ sections }) => (
+    <div className='directory-menu'>
+        {
+            //this.state.sections.map(({title,imageUrl,id,size}) =>(
+            //        <MenuItem key={id} title={title} imageUrl={imageUrl} size={size}/>
+                
+            sections.map(({id, ...otherSectionProps}) =>(
+                    <MenuItem key={id} {...otherSectionProps}/>
+                )
+            )
         }
-    }
+    </div>
+);   
 
-    render(){
-        return(
-            <div className='directory-menu'>
-                {
-                    //this.state.sections.map(({title,imageUrl,id,size}) =>(
-                    //        <MenuItem key={id} title={title} imageUrl={imageUrl} size={size}/>
-                        
-                    this.state.sections.map(({id, ...otherSectionProps}) =>(
-                            <MenuItem key={id} {...otherSectionProps}/>
-                        )
-                    )
-                }
-            </div>
-        )
-    }
-} 
+const mapStateToProps = createStructuredSelector({
+  sections: selectDirectorySections
+});
 
-export default Directory;
+export default connect(mapStateToProps)(Directory);
